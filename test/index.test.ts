@@ -14,19 +14,76 @@ const DateConfig = {
   },
 };
 
+const PageSizeType = {
+  SMALL: 30,
+  MEDIUM: 50,
+  LARGE: 100,
+  30: 'SMALL',
+  50: 'MEDIUM',
+  100: 'LARGE',
+} as const;
+
+type PageSize = 30 | 50 | 100;
+
+const CustomConfig = {
+  parse(str: string) {
+    if (str in PageSizeType) {
+      return PageSizeType[str as 'SMALL' | 'MEDIUM' | 'LARGE'];
+    }
+    return null;
+  },
+  format(pagesize: PageSize) {
+    return PageSizeType[pagesize] as unknown as string;
+  },
+};
+
+enum DateType {
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+}
+
+const GlobalParamsConfig = {
+  dateType: [DateType.DAILY, DateType.WEEKLY, DateType.MONTHLY],
+  begin: DateConfig,
+  end: new Date(),
+  hasName: true,
+  word: undefined as unknown as string,
+  pagesize: CustomConfig,
+};
+
 test('create params from config', () => {
-  const paramsConfig = {
-    dateType: ['DAILY', 'WEEKLY', 'MONTHLY'],
-    begin: DateConfig,
+  const globalParams = createParams(GlobalParamsConfig);
+  expect(globalParams.config.dateType.options).toEqual([
+    'DAILY',
+    'WEEKLY',
+    'MONTHLY',
+  ]);
+  expect(globalParams.config.end.default).toEqual(GlobalParamsConfig.end);
+});
+
+test('generate params from config', () => {
+  const globalParams = createParams(GlobalParamsConfig);
+  localStorage.setItem(
+    'params',
+    JSON.stringify({
+      word: 'test',
+      end: '2021-11-11',
+    })
+  );
+  const defaultParams = {
+    dateType: DateType.DAILY,
+    begin: new Date(),
     end: new Date(),
     hasName: true,
-    word: undefined as unknown as string,
+    word: '',
+    pagesize: PageSizeType.SMALL,
   };
-  const globalParams = createParams(paramsConfig);
+  const { value } = globalParams(defaultParams);
 
-  expect(globalParams.config.dateType).toEqual({
-    options: ['DAILY', 'WEEKLY', 'MONTHLY'],
-    default: 'DAILY',
+  expect(value).toEqual({
+    ...defaultParams,
+    word: 'test',
+    end: new Date('2021-11-11'),
   });
-  expect(globalParams.config.end.default).toEqual(paramsConfig.end);
 });
