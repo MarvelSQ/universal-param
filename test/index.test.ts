@@ -64,6 +64,13 @@ test('create params from config', () => {
 
 test('generate params from config', () => {
   const globalParams = createParams(GlobalParamsConfig);
+  const searchParams = new URLSearchParams();
+  searchParams.set('begin', '2021-11-10');
+  history.replaceState(
+    {},
+    'test',
+    `${location.pathname}?${searchParams.toString()}`
+  );
   localStorage.setItem(
     'params',
     JSON.stringify({
@@ -84,6 +91,7 @@ test('generate params from config', () => {
   expect(value).toEqual({
     ...defaultParams,
     word: 'test',
+    begin: new Date('2021-11-10'),
     end: new Date('2021-11-11'),
   });
 });
