@@ -50,6 +50,7 @@ const GlobalParamsConfig = {
   hasName: true,
   word: undefined as unknown as string,
   pagesize: CustomConfig,
+  page: 1,
 };
 
 test('create params from config', () => {
@@ -66,6 +67,7 @@ test('generate params from config', () => {
   const globalParams = createParams(GlobalParamsConfig);
   const searchParams = new URLSearchParams();
   searchParams.set('begin', '2021-11-10');
+  searchParams.set('page', '10');
   history.replaceState(
     {},
     'test',
@@ -85,6 +87,7 @@ test('generate params from config', () => {
     hasName: true,
     word: '',
     pagesize: PageSizeType.SMALL,
+    page: 1,
   };
   const { value } = globalParams(defaultParams);
 
@@ -93,5 +96,6 @@ test('generate params from config', () => {
     word: 'test',
     begin: new Date('2021-11-10'),
     end: new Date('2021-11-11'),
+    page: 10,
   });
 });
