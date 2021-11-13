@@ -68,6 +68,7 @@ test('generate params from config', () => {
   const searchParams = new URLSearchParams();
   searchParams.set('begin', '2021-11-10');
   searchParams.set('page', '10');
+  searchParams.set('hasName', 'false');
   history.replaceState(
     {},
     'test',
@@ -93,6 +94,7 @@ test('generate params from config', () => {
 
   expect(value).toEqual({
     ...defaultParams,
+    hasName: false,
     word: 'test',
     begin: new Date('2021-11-10'),
     end: new Date('2021-11-11'),
