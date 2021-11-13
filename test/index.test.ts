@@ -66,6 +66,7 @@ test('create params from config', () => {
 test('generate params from config', () => {
   const globalParams = createParams(GlobalParamsConfig);
   const searchParams = new URLSearchParams();
+  searchParams.set('dateType', 'MONTHLY');
   searchParams.set('begin', '2021-11-10');
   searchParams.set('page', '10');
   searchParams.set('hasName', 'false');
@@ -94,6 +95,7 @@ test('generate params from config', () => {
 
   expect(value).toEqual({
     ...defaultParams,
+    dateType: DateType.MONTHLY,
     hasName: false,
     word: 'test',
     begin: new Date('2021-11-10'),
