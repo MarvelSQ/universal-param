@@ -20,4 +20,6 @@ type ReadConfig<P> = {
   [T in keyof P]: PickType<P[T]>;
 };
 
-export { ParamConfig, ReadConfig, ParamsConfig };
+type BaseConfig = Record<string, ParamConfig<any>>;
+
+export { ParamConfig, ReadConfig, ParamsConfig, BaseConfig };
