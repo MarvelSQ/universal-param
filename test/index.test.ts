@@ -53,6 +53,35 @@ const GlobalParamsConfig = {
   page: 1,
 };
 
+test('error', () => {
+  try {
+    createParams({
+      error: {} as any,
+    });
+  } catch (error: any) {
+    expect(error.message).toBe('Invalid config for error: {}');
+  }
+});
+
+test('default', () => {
+  const params = createParams({
+    error: {
+      default: 'default text',
+    } as any,
+  });
+
+  expect(params.config.error.default).toBe('default text');
+});
+
+test('symbol should be string', () => {
+  const symbol = Symbol('symbol');
+  const params = createParams({
+    symbol: symbol as any,
+  });
+
+  expect(params.config.symbol.default).toBe(symbol);
+});
+
 test('create params from config', () => {
   const globalParams = createParams(GlobalParamsConfig);
   expect(globalParams.config.dateType.options).toEqual([

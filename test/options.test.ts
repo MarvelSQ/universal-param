@@ -7,6 +7,15 @@ test('create config from options', () => {
   expect(params.config.pageType.options).toEqual(['sm', 'md', 'lg']);
 });
 
+test('create config from object with options', () => {
+  const params = createParams({
+    pageType: {
+      options: ['sm', 'md', 'lg'],
+    },
+  });
+  expect(params.config.pageType.options).toEqual(['sm', 'md', 'lg']);
+});
+
 test('read option from default', () => {
   const { value: currentParams } = params({
     pageType: 'sm',
