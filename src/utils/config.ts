@@ -1,4 +1,4 @@
-import Presets, { getDefaultPreset } from '../constants/Presets';
+import Presets, { getDefaultPreset, isPresetType } from '../constants/Presets';
 import { ParamConfig, ParamsConfig } from '../type';
 
 function generateParamConfigFromOptions<T extends string | number>(
@@ -19,11 +19,14 @@ function generateParamConfigFromOptions<T extends string | number>(
 
 function generateParamConfigFromPreset<
   T extends Date | string | number | boolean
->(preset: T): ParamConfig<T> {
-  return {
-    ...Presets[preset.constructor.name as keyof typeof Presets],
-    default: preset,
-  } as ParamConfig<T>;
+>(preset: T): ParamConfig<any> {
+  if (isPresetType(preset.constructor.name)) {
+    return {
+      ...Presets[preset.constructor.name as keyof typeof Presets],
+      default: preset,
+    } as ParamConfig<T>;
+  }
+  return getDefaultPreset(preset);
 }
 
 function parseConfig<C extends ParamsConfig>(config: C) {

@@ -5,9 +5,21 @@ type ParamConfig<T> = {
   format: (value: T, key: string) => string;
 };
 
+type DefaultWrap<T> =
+  | T
+  | {
+      default: T;
+    };
+
+type Options =
+  | (number | string)[]
+  | {
+      options: (number | string)[];
+    };
+
 type ParamsConfig = Record<
   string,
-  (number | string)[] | ParamConfig<any> | Date | boolean | number | string
+  Options | ParamConfig<any> | DefaultWrap<Date | boolean | number | string>
 >;
 
 type PickType<C> = C extends ParamConfig<infer U>
@@ -20,6 +32,6 @@ type ReadConfig<P> = {
   [T in keyof P]: PickType<P[T]>;
 };
 
-type BaseConfig = Record<string, ParamConfig<any>>;
+export type BaseConfig = Record<string, ParamConfig<any>>;
 
 export { ParamConfig, ReadConfig, ParamsConfig, BaseConfig };
