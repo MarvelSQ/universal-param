@@ -14,4 +14,25 @@ function getParamsByKeys(keys: string[], config: BaseConfig) {
   return params;
 }
 
-export { getParamsByKeys };
+function setParamsWithDiff(
+  base: Record<string, any>,
+  next: Record<string, any>,
+  config: BaseConfig
+) {
+  const searchParams = new URLSearchParams(location.search);
+  Object.entries(config).forEach(([key, { format }]) => {
+    if (base[key] !== next[key]) {
+      const value = format(next[key], key);
+      searchParams.set(key, value);
+    } else {
+      searchParams.delete(key);
+    }
+  });
+  history.replaceState(
+    null,
+    document.title,
+    `${location.pathname}?${searchParams.toString()}`
+  );
+}
+
+export { getParamsByKeys, setParamsWithDiff };

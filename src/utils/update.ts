@@ -11,11 +11,14 @@ function updateParams(
   const searchParams = search.getParamsByKeys(keys, paramsConfig);
   const storageParams = storage.getParamsByKeys(keys, paramsConfig);
 
-  return {
+  const nextParams = {
     ...defaultParams,
     ...storageParams,
     ...searchParams,
   };
+  search.setParamsWithDiff(defaultParams, nextParams, paramsConfig);
+
+  return nextParams;
 }
 
 export default updateParams;

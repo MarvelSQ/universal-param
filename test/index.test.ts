@@ -1,4 +1,4 @@
-import dateFns from 'date-fns';
+import format from 'date-fns/format';
 import createParams from '../src';
 
 const DateConfig = {
@@ -10,7 +10,7 @@ const DateConfig = {
     return date;
   },
   format(date: Date) {
-    return dateFns.format(date, 'YYYY-MM-DD');
+    return format(date, 'yyyy-MM-dd');
   },
 };
 
@@ -102,4 +102,9 @@ test('generate params from config', () => {
     end: new Date('2021-11-11'),
     page: 10,
   });
+
+  const nextSearchParams = new URLSearchParams(location.search);
+
+  expect(nextSearchParams.get('word')).toEqual('test');
+  expect(nextSearchParams.get('end')).toEqual('2021-11-11T00:00:00.000Z');
 });
