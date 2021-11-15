@@ -137,3 +137,8 @@ test('generate params from config', () => {
   expect(nextSearchParams.get('word')).toEqual('test');
   expect(nextSearchParams.get('end')).toEqual('2021-11-11T00:00:00.000Z');
 });
+
+afterEach(() => {
+  history.replaceState({}, 'test', location.pathname);
+  localStorage.removeItem('params');
+});

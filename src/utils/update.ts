@@ -9,7 +9,6 @@ function updateParams(
     storage: storage.StorageType;
   }
 ) {
-  console.log('storage', option.storage);
   const keys = Object.keys(defaultParams);
 
   const searchParams = search.getParamsByKeys(keys, option.config);

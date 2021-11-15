@@ -8,7 +8,11 @@ function createParams<C extends ParamsConfig>(paramsConfig: C) {
 
   function read(
     defaultParams: ReadConfig<C>,
-    { storageType = StorageType.LOCAL } = {
+    {
+      storageType = StorageType.LOCAL,
+    }: {
+      storageType?: StorageType;
+    } = {
       storageType: StorageType.LOCAL,
     }
   ) {
