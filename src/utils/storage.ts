@@ -1,8 +1,29 @@
 import { BaseConfig } from '../type';
 
-function getParamsByKeys(keys: string[], config: BaseConfig) {
+export enum StorageType {
+  LOCAL = 'local',
+  SESSION = 'session',
+  NONE = 'none',
+}
+
+function getStorage(type: StorageType) {
+  switch (type) {
+    case StorageType.LOCAL:
+      return localStorage;
+    case StorageType.SESSION:
+      return sessionStorage;
+    default:
+      return localStorage;
+  }
+}
+
+function getParamsByKeys(
+  keys: string[],
+  config: BaseConfig,
+  type: StorageType
+) {
   const params: any = {};
-  const storageParams = JSON.parse(localStorage.getItem('params') || '{}');
+  const storageParams = JSON.parse(getStorage(type).getItem('params') || '{}');
   keys.forEach((key) => {
     if (config[key] && key in storageParams) {
       const value = config[key].parse(storageParams[key] as string, key);
