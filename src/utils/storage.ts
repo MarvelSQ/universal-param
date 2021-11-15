@@ -8,10 +8,9 @@ export enum StorageType {
 
 function getStorage(type: StorageType) {
   switch (type) {
-    case StorageType.LOCAL:
-      return localStorage;
     case StorageType.SESSION:
       return sessionStorage;
+    case StorageType.LOCAL:
     default:
       return localStorage;
   }
