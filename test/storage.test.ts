@@ -61,3 +61,15 @@ test('should not use storage', () => {
     pageType: 'sm',
   });
 });
+
+test('should use local storage as default', () => {
+  const { value: noneValue } = params(
+    {
+      pageType: 'sm',
+    },
+    {}
+  );
+  expect(noneValue).toEqual({
+    pageType: 'md',
+  });
+});
