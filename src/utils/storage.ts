@@ -18,14 +18,19 @@ function getStorage(type: StorageType) {
 
 function getParamsByKeys(
   keys: string[],
-  config: BaseConfig,
-  type: StorageType
+  option: {
+    config: BaseConfig;
+    type: StorageType;
+    key?: string;
+  }
 ) {
   const params: any = {};
-  const storageParams = JSON.parse(getStorage(type).getItem('params') || '{}');
+  const storageParams = JSON.parse(
+    getStorage(option.type).getItem(option.key || 'params') || '{}'
+  );
   keys.forEach((key) => {
-    if (config[key] && key in storageParams) {
-      const value = config[key].parse(storageParams[key] as string, key);
+    if (option.config[key] && key in storageParams) {
+      const value = option.config[key].parse(storageParams[key] as string, key);
       if (value !== null) {
         params[key] = value;
       }
