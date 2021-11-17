@@ -1,7 +1,7 @@
 import createParams from '../src';
 import { StorageType } from '../src/utils/storage';
 const params = createParams({
-  pageType: ['sm', 'md', 'lg'],
+  pageType: ['sm', 'md', 'lg', 'xl'],
 });
 
 beforeEach(() => {
@@ -71,5 +71,35 @@ test('should use local storage as default', () => {
   );
   expect(noneValue).toEqual({
     pageType: 'md',
+  });
+});
+
+test('should use custom local storage key', () => {
+  localStorage.setItem('user', JSON.stringify({ pageType: 'xl' }));
+  const { value: noneValue } = params(
+    {
+      pageType: 'sm',
+    },
+    {
+      storageKey: 'user',
+    }
+  );
+  expect(noneValue).toEqual({
+    pageType: 'xl',
+  });
+});
+
+test('should use custom local storage key and invalid value', () => {
+  localStorage.setItem('user', JSON.stringify({ pageType: 'xs' }));
+  const { value: noneValue } = params(
+    {
+      pageType: 'sm',
+    },
+    {
+      storageKey: 'user',
+    }
+  );
+  expect(noneValue).toEqual({
+    pageType: 'sm',
   });
 });

@@ -10,8 +10,10 @@ function createParams<C extends ParamsConfig>(paramsConfig: C) {
     defaultParams: ReadConfig<C>,
     {
       storageType = StorageType.LOCAL,
+      storageKey,
     }: {
       storageType?: StorageType;
+      storageKey?: string;
     } = {
       storageType: StorageType.LOCAL,
     }
@@ -19,6 +21,7 @@ function createParams<C extends ParamsConfig>(paramsConfig: C) {
     const result = updateParams(defaultParams, {
       config,
       storage: storageType,
+      storageKey,
     });
     return {
       value: result,

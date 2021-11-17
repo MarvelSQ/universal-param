@@ -7,6 +7,7 @@ function updateParams(
   option: {
     config: BaseConfig;
     storage: storage.StorageType;
+    storageKey?: string;
   }
 ) {
   const keys = Object.keys(defaultParams);
@@ -14,7 +15,11 @@ function updateParams(
   const searchParams = search.getParamsByKeys(keys, option.config);
   const storageParams =
     option.storage !== storage.StorageType.NONE
-      ? storage.getParamsByKeys(keys, option.config, option.storage)
+      ? storage.getParamsByKeys(keys, {
+          config: option.config,
+          type: option.storage,
+          key: option.storageKey,
+        })
       : {};
 
   const nextParams = {
