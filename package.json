@@ -2,14 +2,19 @@
   "name": "@marvelsq/universal-param",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "README.md"
+  ],
   "scripts": {
     "test": "jest --coverage",
     "lint:prettier": "prettier 'src/**/*.{js,ts,tsx}' --check --ignore-unknown",
     "lint:eslint": "eslint .",
     "lint": "npm run lint:prettier && npm run lint:eslint",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "babel src --out-dir lib --extensions .js,.ts,.tsx"
   },
   "repository": {
     "type": "git",
@@ -52,6 +57,7 @@
     }
   },
   "dependencies": {
+    "@babel/cli": "^7.16.0",
     "conventional-changelog-cli": "^2.1.1"
   }
 }
